@@ -2,8 +2,6 @@
 
 > **"아름다운 순우리말로 나만의 닉네임을 만들어 보세요!"**
 
-<img src="https://user-images.githubusercontent.com/example/preview.png" alt="Nickname Generator Preview" width="600"/>
-
 ---
 
 ## 📖 소개
