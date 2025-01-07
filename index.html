@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>순우리말 닉네임 생성기</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            min-height: 40px;
+            padding: 10px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>순우리말 닉네임 생성기</h1>
+        <div class="button-group">
+            <button onclick="generateNickname(2)">2글자</button>
+            <button onclick="generateNickname(3)">3글자</button>
+            <button onclick="generateNickname(4)">4글자</button>
+        </div>
+        <div id="result">버튼을 눌러 닉네임을 생성하세요</div>
+    </div>
+
+    <script>
+        let words = {}; // 외부에서 불러온 단어 데이터
+
+        // JSON 데이터 가져오기
+        async function fetchWords() {
+            try {
+                const response = await fetch('https://<USERNAME>.github.io/<REPO_NAME>/words.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                words = await response.json();
+                console.log('단어 데이터 로드 완료:', words);
+            } catch (error) {
+                console.error('단어 데이터 로드 실패:', error);
+                document.getElementById('result').textContent = '단어 데이터를 불러올 수 없습니다.';
+            }
+        }
+
+        // 닉네임 생성
+        function generateNickname(length) {
+            if (!words[length] || words[length].length === 0) {
+                document.getElementById('result').textContent = '단어 데이터를 로드하세요.';
+                return;
+            }
+            const wordList = words[length];
+            const randomIndex = Math.floor(Math.random() * wordList.length);
+            document.getElementById('result').textContent = wordList[randomIndex];
+        }
+
+        // 페이지 로드 시 단어 데이터를 불러옴
+        fetchWords();
+    </script>
+</body>
+</html>
